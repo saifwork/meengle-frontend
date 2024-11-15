@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:meengle/provider/timer_provider.dart';
 import 'package:meengle/views/main_screen.dart';
 import 'package:provider/provider.dart';
 import '../data/models/ActionModel.dart';
@@ -134,6 +135,8 @@ class DashboardProvider extends ChangeNotifier {
     if (offer.success ?? false) {
       offerModel = offer;
 
+      // Provider.of<TimerProvider>(navigatorKey.currentContext!, listen: false)
+      //     .startTimer();
       notifyListeners();
 
       signaling.createRoom();

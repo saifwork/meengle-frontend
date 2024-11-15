@@ -7,7 +7,6 @@ import 'package:meengle/provider/navigator_provider.dart';
 import 'package:meengle/provider/theme_provider.dart';
 import 'package:meengle/provider/video_chat_provider.dart';
 import 'package:meengle/provider/video_provider.dart';
-import 'package:meengle/views/main_screen.dart';
 import 'package:meengle/views/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';

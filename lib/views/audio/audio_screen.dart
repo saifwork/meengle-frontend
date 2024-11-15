@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import '../../provider/dashboard_provider.dart';
 import '../../provider/navigator_provider.dart';
 import '../../provider/timer_provider.dart';
 import '../../provider/video_provider.dart';
@@ -36,56 +37,63 @@ class _AudioScreenState extends State<AudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<NavigatorProvider>(context, listen: false);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: space),
-      child: Column(
-        children: [
-          MasterSpacer.h.space(20),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  state.setPage(AppPage.home);
-                },
-                icon: SvgPicture.asset(
-                  AssetPaths.backward,
-                  height: 30,
-                  width: 30,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+    final navigatorProvider =
+        Provider.of<NavigatorProvider>(context, listen: false);
+
+    return Consumer<DashboardProvider>(
+      builder: (context, state, child) {
+        return state.getOfferModel.data != null
+            ? Container(
+                padding: const EdgeInsets.symmetric(horizontal: space),
+                child: Column(
+                  children: [
+                    MasterSpacer.h.space(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigatorProvider.setPage(AppPage.home);
+                          },
+                          icon: SvgPicture.asset(
+                            AssetPaths.backward,
+                            height: 30,
+                            width: 30,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        ),
+                        Text(
+                          "OnGoing Call",
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const SizedBox.shrink(),
+                      ],
+                    ),
+                    MasterSpacer.h.five(),
+                    Divider(
+                      color: Theme.of(context).dividerColor,
+                      thickness: 0.5,
+                    ),
+                    const Expanded(child: AnimatedCircles()),
+                    Text(
+                      "Stranger",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    MasterSpacer.h.five(),
+                    Consumer<TimerProvider>(
+                      builder: (context, timerProvider, child) {
+                        return Text(
+                          timerProvider.formattedTime,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        );
+                      },
+                    ),
+                    MasterSpacer.h.ten(),
+                  ],
                 ),
-              ),
-              const Spacer(),
-              Consumer<TimerProvider>(
-                builder: (context, timerProvider, child) {
-                  return Text(
-                    timerProvider.formattedTime,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  );
-                },
-              ),
-              const Spacer(),
-              const Spacer(),
-            ],
-          ),
-          MasterSpacer.h.five(),
-          Divider(
-            color: Theme.of(context).dividerColor,
-            thickness: 0.5,
-          ),
-          const Expanded(child: AnimatedCircles()),
-          Text(
-            "Stranger",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          MasterSpacer.h.five(),
-          Text(
-            "25:30",
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          MasterSpacer.h.ten(),
-        ],
-      ),
+              )
+            : const Center(child: Text("W A I T I N G"));
+      },
     );
   }
 }
